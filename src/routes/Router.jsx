@@ -14,10 +14,11 @@ import User from "../components/screens/User/User";
 function Router() {
     return <BrowserRouter>
         <Routes>
-            <Route path="/home" element={<Acceuil />}></Route>
+            <Route path="/" element={<Acceuil />}></Route>
             <Route path="/user" element={<User />}></Route>
-            <Route path="*" element={<Acceuil />}></Route>
             <Route path="/signin" element={<SignIn />}></Route>
+            <Route path="*" element={<Acceuil />}></Route>
+
         </Routes>
     </BrowserRouter>
 

@@ -20,9 +20,8 @@ function SignIn() {
 
 
   async function connectApi(email, password) {
-    const res = await callAPI(email, password).then((e) => { console.log(e); return e });
+    const res = await callAPI(email, password).then((e) => { return e });
     if (res.status === 200) {
-      console.log(res.body.token)
 
       dispach(login({ value: true, token: res.body.token }));
       navigate('/user')
@@ -36,7 +35,6 @@ function SignIn() {
 
     <main className="main bg-dark">
       <section className="sign-in-content">
-        <p>Qu'est ce que c'est {vale}</p>
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <form action="submit" onSubmit={(e) => { e.preventDefault(); connectApi(email, password) }}>

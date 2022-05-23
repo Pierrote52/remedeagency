@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import logo from '../../../img/argentBankLogo.png'
 import { logout } from "../../../reducers/isLogged";
 import { useNavigate } from 'react-router-dom';
+import EditName from '../../popUp/editName/EditName';
+import Header from '../../header/header';
 
 
 
@@ -13,34 +15,36 @@ function User() {
     const token = useSelector((state) => state.user.value.token)
     const [firstName, setFirstname] = useState();
     const [name, setName] = useState();
-    const dispach = useDispatch()
+    const dispach = useDispatch();
     const navigate = useNavigate();
+    const [editName, setEditName] = useState(false);
     useEffect(() => {
-        testProfil(token).then((result) => {
-            setFirstname(result.body.firstName);
-            setName(result.body.lastName)
-        })
+        actualiseState()
 
 
     }, []);
+
     async function signOut() {
-        console.log('logout')
-        dispach(logout())
-        navigate('/home')
-
-
-
+        dispach(logout());
+        navigate('/home');
     }
 
 
     async function testProfil(e) {
         const res = await profil(token);
-        console.log(res)
         return res;
+    }
+    async function actualiseState() {
+        testProfil(token).then((result) => {
+            setFirstname(result.body.firstName);
+            setName(result.body.lastName);
+
+        })
     }
     return (
         <div id="profil">
-            <nav className="main-nav">
+            <EditName display={editName} quitComponent={() => { setEditName(false) }} returnUser={() => (actualiseState())} />
+            {/* <nav className="main-nav">
                 <a className="main-nav-logo" href="./index.html">
                     <img className="main-nav-logo-image" src={logo} alt="Argent Bank Logo" />
                     <h1 className="sr-only">Argent Bank</h1>
@@ -55,11 +59,12 @@ function User() {
                         Sign Out
                     </button>
                 </div>
-            </nav>
+            </nav> */}
+            <Header />
             <main className="main bg-dark">
                 <div className="header">
                     <h1>Welcome back<br />{firstName} {name}</h1>
-                    <button className="edit-button">Edit Name</button>
+                    <button onClick={() => { setEditName(!editName) }} className="edit-button">Edit Name</button>
                 </div>
                 <h2 className="sr-only">Accounts</h2>
                 <section className="account">
@@ -69,7 +74,7 @@ function User() {
                         <p className="account-amount-description">Available Balance</p>
                     </div>
                     <div className="account-content-wrapper cta">
-                        <button className="transaction-button" onClick={(e) => { e.preventDefault(); console.log('coucou') }}>View transactions</button>
+                        <button className="transaction-button" onClick={(e) => { e.preventDefault() }}>View transactions</button>
                     </div>
                 </section>
                 <section className="account">
