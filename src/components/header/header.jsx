@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const [isLoged, setLoged] = useState(false);
-    const token = useSelector((state) => state.user.value.token);
+    const token = localStorage.getItem('token')
     const dispach = useDispatch();
     const navigate = useNavigate();
     const [userName, setUserName] = useState();
@@ -23,6 +23,7 @@ function Header() {
     }, [])
 
     async function signOut() {
+        localStorage.removeItem('token')
         dispach(logout());
         navigate('/home');
 
@@ -30,6 +31,7 @@ function Header() {
 
     }
     async function takeNameUser() {
+
         const res = await profil(token);
         setUserName(res.body.lastName)
 

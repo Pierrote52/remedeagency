@@ -22,6 +22,7 @@ function SignIn() {
   async function connectApi(email, password) {
     const res = await callAPI(email, password).then((e) => { return e });
     if (res.status === 200) {
+      localStorage.setItem('token', res.body.token)
 
       dispach(login({ value: true, token: res.body.token }));
       navigate('/user')

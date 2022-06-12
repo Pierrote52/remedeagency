@@ -20,6 +20,7 @@ function User() {
     const [editName, setEditName] = useState(false);
     useEffect(() => {
         actualiseState()
+        console.log('lance use effect')
 
 
     }, []);
@@ -31,11 +32,13 @@ function User() {
 
 
     async function testProfil(e) {
-        const res = await profil(token);
+        const res = await profil(e);
         return res;
     }
     async function actualiseState() {
-        testProfil(token).then((result) => {
+        const _token = localStorage.getItem('token');
+        console.log(_token)
+        testProfil(_token).then((result) => {
             setFirstname(result.body.firstName);
             setName(result.body.lastName);
 
